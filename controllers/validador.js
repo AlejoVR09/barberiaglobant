@@ -15,9 +15,17 @@ boton.addEventListener("click",function(infoEvento){
     let telefono=cajaTelefono.value
     let fecha=cajaFecha.value
     let hora=cajaHora.value
-    console.log(hora)
+    
 
     let errores=[]
+    let citas
+    let datosMemoria=JSON.parse(localStorage.getItem("datos"))
+    if(!datosMemoria){
+        citas=[]
+    }else{
+        citas=datosMemoria
+        //citas=citas.push(datosMemoria)
+    }
     
     if(!usuario){
         errores.push("El nombre es obligatorio")
@@ -42,6 +50,23 @@ boton.addEventListener("click",function(infoEvento){
     if(hora=='Seleccione una hora'){
         errores.push("La hora es obligatorio")
         cajaHora.classList.add("is-invalid")
+    }
+
+    
+    if(errores.length==0){
+        
+        let datosEnvio={
+            usuario,
+            correo,
+            fecha,
+            hora,
+            telefono
+        }
+        citas.push(datosEnvio)
+        
+        //abrimos la memoria para almacenar la data
+        localStorage.setItem("datos",JSON.stringify(citas))
+
     }
 
     /*Swal.fire(
